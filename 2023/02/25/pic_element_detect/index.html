@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>基于视觉的场景元素自识别聚类 Vision-based Self-identification Clustering of Scene Elements | ChweiW&#39;s Blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="Tools" />
+    
+    <meta name="description" content="研究方法分为四步，首先是用爬虫将人们打卡的图片下载下来，这些图片上附着有相应的poi信息和签到文本，签到文本又反映了人们打卡时的情绪。所以在第二步过滤时，先根据签到文本情绪筛选出正向的图片，然后对签到图片进行分类，保留风景图片用于制作数据集。第三步是提取，首先将图片裁剪为补丁，并提取补丁特征，然后通过计算图片的余弦相似度完成初始聚类，在初始聚类之下通过人工分类数据集，训练一个更精细的机器学习模型。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于视觉的场景元素自识别聚类 Vision-based Self-identification Clustering of Scene Elements">
+<meta property="og:url" content="http://example.com/2023/02/25/pic_element_detect/index.html">
+<meta property="og:site_name" content="ChweiW&#39;s Blog">
+<meta property="og:description" content="研究方法分为四步，首先是用爬虫将人们打卡的图片下载下来，这些图片上附着有相应的poi信息和签到文本，签到文本又反映了人们打卡时的情绪。所以在第二步过滤时，先根据签到文本情绪筛选出正向的图片，然后对签到图片进行分类，保留风景图片用于制作数据集。第三步是提取，首先将图片裁剪为补丁，并提取补丁特征，然后通过计算图片的余弦相似度完成初始聚类，在初始聚类之下通过人工分类数据集，训练一个更精细的机器学习模型。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/pics/4.JPG">
+<meta property="article:published_time" content="2023-02-25T13:24:36.031Z">
+<meta property="article:modified_time" content="2023-02-25T13:46:22.140Z">
+<meta property="article:author" content="Chengwei Wang">
+<meta property="article:tag" content="Tools">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/pics/4.JPG">
+    
+
+    
+        <link rel="alternate" href="/" title="ChweiW&#39;s Blog" type="application/atom+xml" />
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <!-- <a class="main-nav-list-link" href="/">Home</a> -->
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                                    <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Curriculum-Vitae/">Curriculum Vitae</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/">Project</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Research/">Research</a></li></ul>
+                                
+                                <li class="main-nav-list-item" >
+                                    <!-- <a class="main-nav-list-link" href="/about/index.html">About</a> -->
+                                    <a class="main-nav-list-link" href="/about/index.html">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Project/">Project</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-pic_element_detect" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        基于视觉的场景元素自识别聚类 Vision-based Self-identification Clustering of Scene Elements
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/2023/02/25/pic_element_detect/" class="article-date">
+       <time datetime="2023-02-25T13:24:36.031Z" itemprop="datePublished">2023-02-25</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/2023/02/25/pic_element_detect/" class="article-date">
+     <time datetime="2023-02-25T13:46:22.140Z" itemprop="dateModified">2023-02-25</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Tools/" rel="tag">Tools</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <p><img src="/pics/4.JPG"><br>研究方法分为四步，首先是用爬虫将人们打卡的图片下载下来，这些图片上附着有相应的poi信息和签到文本，签到文本又反映了人们打卡时的情绪。所以在第二步过滤时，先根据签到文本情绪筛选出正向的图片，然后对签到图片进行分类，保留风景图片用于制作数据集。第三步是提取，首先将图片裁剪为补丁，并提取补丁特征，然后通过计算图片的余弦相似度完成初始聚类，在初始聚类之下通过人工分类数据集，训练一个更精细的机器学习模型。第四步是输出，首先是通过统计出现频率，提取城市典型视觉元素，也可以通过输入种子图片，找到拥有相似视觉元素的图片。</p>
+<p>小组介绍 Team Introduction<br>DesAIgn组是由吴志强院士领衔的智能设计部门。部门从吴院士提出的以“需求导向”出发的实景智化与从“理想导向”的虚场落实两种智能化设计逻辑出发，对承载城市生活的物质空间进行设计与改造。小组工作从以数据聆听市民心声、以人本视角描摹城市面貌、以智能设计满足人的需求三个方面展开。团队发育的城市感知技术、智能场景设计系列等产品先后应用于北京、上海、山东、厦门、浙江等多地项目，取得良好的实践反馈。</p>
+<p>The DesAIgn group is an intelligent design department led by Academician WU Zhiqiang. The group designs and transforms the material space that carries urban life in both demand-oriented and ideal-oriented ways. The group work was carried out from the following three aspects: 1) Using big data to analysis citizens’s need. 2)describing the appearance of the city from a human-oriented perspective 3) Satisfy citizens’ need with intelligent design.The urban perception technology and intelligent scene design series developed by the team have been applied to projects in Beijing, Shanghai, Shandong, Xiamen, Zhejiang, etc., and have obtained good practical feedback.</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://example.com/2023/02/25/pic_element_detect/" data-id="clek1djnx0005rwvk72iac499" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "Chengwei Wang"
+        },
+        "headline": "基于视觉的场景元素自识别聚类 Vision-based Self-identification Clustering of Scene Elements",
+        "image": "http://example.com/pics/4.JPG",
+        "keywords": "Tools",
+        "genre": "Project",
+        "datePublished": "2023-02-25",
+        "dateCreated": "2023-02-25",
+        "dateModified": "2023-02-25",
+        "url": "http://example.com/2023/02/25/pic_element_detect/",
+        "description": "研究方法分为四步，首先是用爬虫将人们打卡的图片下载下来，这些图片上附着有相应的poi信息和签到文本，签到文本又反映了人们打卡时的情绪。所以在第二步过滤时，先根据签到文本情绪筛选出正向的图片，然后对签到图片进行分类，保留风景图片用于制作数据集。第三步是提取，首先将图片裁剪为补丁，并提取补丁特征，然后通过计算图片的余弦相似度完成初始聚类，在初始聚类之下通过人工分类数据集，训练一个更精细的机器学习模型。",
+        "wordCount": 100
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="stack-overflow" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-stack-overflow"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2023/02/25/visbelle/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            数据装饰的设计空间 VizBelle-A Design Space of Embellishments for Data Visualization
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2023/02/25/emotion_sensor/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">公共空间正负向情绪动因感知 Perception of Positive and Negative Emotional Motivations in Public Spaces</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/02/25/visbelle/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/pics/5.jpg)" alt="数据装饰的设计空间 VizBelle-A Design Space of Embellishments for Data Visualization" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Research/">Research</a></p>
+                            <p class="item-title"><a href="/2023/02/25/visbelle/" class="title">数据装饰的设计空间 VizBelle-A Design Space of Embellishments for Data Visualization</a></p>
+                            <p class="item-date"><time datetime="2023-02-25T13:52:32.718Z" itemprop="datePublished">2023-02-25</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/02/25/pic_element_detect/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/pics/4.JPG)" alt="基于视觉的场景元素自识别聚类 Vision-based Self-identification Clustering of Scene Elements" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Project/">Project</a></p>
+                            <p class="item-title"><a href="/2023/02/25/pic_element_detect/" class="title">基于视觉的场景元素自识别聚类 Vision-based Self-identification Clustering of Scene Elements</a></p>
+                            <p class="item-date"><time datetime="2023-02-25T13:24:36.031Z" itemprop="datePublished">2023-02-25</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/02/25/emotion_sensor/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/pics/2.jpg)" alt="公共空间正负向情绪动因感知 Perception of Positive and Negative Emotional Motivations in Public Spaces" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Project/">Project</a></p>
+                            <p class="item-title"><a href="/2023/02/25/emotion_sensor/" class="title">公共空间正负向情绪动因感知 Perception of Positive and Negative Emotional Motivations in Public Spaces</a></p>
+                            <p class="item-date"><time datetime="2023-02-25T13:05:09.916Z" itemprop="datePublished">2023-02-25</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/02/20/cv/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/pics/1.jpg)" alt="个人简历 Curriculum Vitae" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Curriculum-Vitae/">Curriculum Vitae</a></p>
+                            <p class="item-title"><a href="/2023/02/20/cv/" class="title">个人简历 Curriculum Vitae</a></p>
+                            <p class="item-date"><time datetime="2023-02-20T13:35:08.107Z" itemprop="datePublished">2023-02-20</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Curriculum-Vitae/">Curriculum Vitae</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/">Project</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Research/">Research</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a><span class="archive-list-count">4</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Design-Writing/" rel="tag">Design, Writing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Summary/" rel="tag">Summary</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tools/" rel="tag">Tools</a><span class="tag-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Design-Writing/" style="font-size: 10px;">Design, Writing</a> <a href="/tags/Summary/" style="font-size: 10px;">Summary</a> <a href="/tags/Tools/" style="font-size: 20px;">Tools</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2023 Chengwei Wang</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://example.com/2023/02/25/pic_element_detect/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>
