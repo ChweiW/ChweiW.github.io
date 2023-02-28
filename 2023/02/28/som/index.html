@@ -6,17 +6,26 @@
     
 
     
-    <title>Category: Curriculum Vitae | ChweiW&#39;s Blog</title>
+    <title>SOM算法和GeoSOM算法 | ChweiW&#39;s Blog</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta property="og:type" content="website">
-<meta property="og:title" content="ChweiW&#39;s Blog">
-<meta property="og:url" content="http://example.com/categories/Curriculum-Vitae/index.html">
+    <meta name="keywords" content="Machine Learning" />
+    
+    <meta name="description" content="SOM介绍SOM是一种无监督的人工神经网络。不同于一般神经网络基于损失函数的反向传递来训练，它运用竞争学习(competitive learning)策略,依靠神经元之间互相竞争逐步优化网络。且使用近邻关系函数(neighborhood function)来维持输入空间的拓扑结构。维持输入空间的拓扑结构：意味着 二维映射包含了数据点之间的相对距离。输入空间中相邻的样本会被映射到相邻的输出神经元。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SOM算法和GeoSOM算法">
+<meta property="og:url" content="http://example.com/2023/02/28/som/index.html">
 <meta property="og:site_name" content="ChweiW&#39;s Blog">
+<meta property="og:description" content="SOM介绍SOM是一种无监督的人工神经网络。不同于一般神经网络基于损失函数的反向传递来训练，它运用竞争学习(competitive learning)策略,依靠神经元之间互相竞争逐步优化网络。且使用近邻关系函数(neighborhood function)来维持输入空间的拓扑结构。维持输入空间的拓扑结构：意味着 二维映射包含了数据点之间的相对距离。输入空间中相邻的样本会被映射到相邻的输出神经元。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/pics/17.jpg">
+<meta property="article:published_time" content="2023-02-28T11:44:22.434Z">
+<meta property="article:modified_time" content="2023-02-28T13:27:27.035Z">
 <meta property="article:author" content="Chengwei Wang">
+<meta property="article:tag" content="Machine Learning">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/pics/17.jpg">
     
 
     
@@ -145,78 +154,181 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-folder-open"></i>Category: <em class="page-title-link">Curriculum Vitae</em>
+    <a class="page-title-link" href="/categories/Learning/">Learning</a>
     </h1>
 </div>
 
                         <div class="main-body-content">
-                            
-
-    
-    
+                            <article id="post-som" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-        
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2023" class="archive-year"><i class="icon fa fa-calendar-o"></i>2023</a>
-            </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2023/02/20/cv/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/pics/1.jpg)" alt="个人简历 Curriculum Vitae" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://example.com/2023/02/20/cv/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/Curriculum-Vitae/">Curriculum Vitae</a>
-            </div>
-            <div class="date"><time datetime="2023-02-20T13:35:08.107Z" itemprop="datePublished">2023-02-20</time></div>
-        </div>
-        
+            <header class="article-header">
+                
     
         <h1 class="article-title" itemprop="name">
-        <a href="/2023/02/20/cv/">个人简历 Curriculum Vitae</a>
+        SOM算法和GeoSOM算法
         </h1>
     
 
-        <p class="article-excerpt">
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/2023/02/28/som/" class="article-date">
+       <time datetime="2023-02-28T11:44:22.434Z" itemprop="datePublished">2023-02-28</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/2023/02/28/som/" class="article-date">
+     <time datetime="2023-02-28T13:27:27.035Z" itemprop="dateModified">2023-02-28</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
             
 
-👋 Hi, I’m @ChweiW.You can call me Chengwei.
-👀 I’m interested in musical, cooking and all kinds of creative stuff^-^
-🌱 I’m currently working as an urban planner, but I’m trying to be an interdisci
-        </p>
-    </div>
-</article>
-    
+            
+
+            
+
+            <p><img src="/pics/17.jpg"></p>
+<h1 id="SOM介绍"><a href="#SOM介绍" class="headerlink" title="SOM介绍"></a>SOM介绍</h1><p>SOM是一种无监督的人工神经网络。不同于一般神经网络基于损失函数的反向传递来训练，它运用竞争学习(competitive learning)策略,依靠神经元之间互相竞争逐步优化网络。且使用近邻关系函数(neighborhood function)来维持输入空间的拓扑结构。<br>维持输入空间的拓扑结构：意味着 二维映射包含了数据点之间的相对距离。输入空间中相邻的样本会被映射到相邻的输出神经元。<br>由于基于无监督学习,这意味着训练阶段不需要人工介入(即不需要样本标签)，我们可以在不知道类别的情况下，对数据进行聚类；可以识别针对某问题具有内在关联的特征。</p>
+<h1 id="SOM网络结构"><a href="#SOM网络结构" class="headerlink" title="SOM网络结构"></a>SOM网络结构</h1><p>SOM的网络结构有2层：输入层、输出层(也叫竞争层)，输入层神经元的数量是由输入向量的维度决定的，一个神经元对应一个特征；区别主要在竞争层：可以有1维、2维(最常见的，常见的有Rectangular和Hexagonal)<br>竞争层最少节点数量 &#x3D; 5*sqrtN，N是训练样本的个数</p>
+<h1 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a>训练过程</h1><p>第一步：与其他神经网络相同，需要将Weighs初始化为很小的随机数</p>
+<p>第二步：随机取一个 输入样本Xi</p>
+<p>第三步：</p>
+<p>遍历竞争层中每一个节点：计算Xi与节点之间的相似度(通常使用欧式距离)<br>选取距离最小的节点作为优胜节点(winner node)，有的时也叫BMU(best matching unit)<br>第四步：根据邻域半径σ(sigma)确定优胜邻域将包含的节点；并通过neighborhood function计算它们各自更新的幅度(基本思想是：越靠近优胜节点，更新幅度越大；越远离优胜节点，更新幅度越小)</p>
+<p>第五步：更新优胜邻域内节点的Weight：</p>
+<p>W_v(s+1) &#x3D; W_v(s) + θ(u,v,s) · α(s) · (D(t) - W_v(s))</p>
+<p>θ(u,v,s)是对更新的约束，基于离BMU的距离 即neighborhood function的返回值<br>W_v(s)是节点v当前的Wight<br>第六步：完成一轮迭代(迭代次数+1)，返回第二步，直到满足设定的迭代次数</p>
+<h1 id="GeoSOM细节"><a href="#GeoSOM细节" class="headerlink" title="GeoSOM细节"></a>GeoSOM细节</h1><h1 id="坐标轴和空间的关系"><a href="#坐标轴和空间的关系" class="headerlink" title="坐标轴和空间的关系"></a>坐标轴和空间的关系</h1><p>坐标轴是网络竞争层的边长,竞争节点（单元格）数量最少等于五倍根号N，N是训练样本的个数，X和Y可以自己设定<br>单元格的大小是根据数量变化的，就是在竞争层平面上满铺竞争节点</p>
+<h1 id="节点的意义"><a href="#节点的意义" class="headerlink" title="节点的意义"></a>节点的意义</h1><p>U-matrix可以看作输入空间中数据点概率密度在二维平面上的映射：<br>权重矩阵W会被分成两个部分, geo和非geo的部分,分别对应w1和w0-w1, 需要给定一个K(地理容差), 让w0-w1≤k，也就是说K&#x3D;0的时候，单元在输入空间中的最终位置将是训练模式地理位置的准比例表示，通过只训练地理位置的标准SOM，然后使用每个单元作为非地理特征的低通滤波器，可以获得完全相同的最终结果。随着k(地理公差)的增加，单元位置将不再与训练模式的位置成准比例，单元的“等效滤波器”函数将变得越来越倾斜。</p>
+<h1 id="颜色的含义，解读"><a href="#颜色的含义，解读" class="headerlink" title="颜色的含义，解读"></a>颜色的含义，解读</h1><p>U-matrix包含每个节点与它的邻居节点(在输入空间)的欧式距离，顔色是这个距离数值的体现，可以看成灰度图，只是加了色带；<br>通过component plane，能够可视化相关变量或者额外变量)的分布，Component plane可以理解成SOM网络的切片版本。每一个component plane包含了一个输入特征的相对分布。在这种图中，深色表示相对小的取值，浅色表示相对大的取值。通过比较component planes，我们可以看出两个component的相关信。如果看上去类似，那么它们强相关</p>
+
         </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://example.com/2023/02/28/som/" data-id="cleoaaklc0000dsvk891y90ve" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "Chengwei Wang"
+        },
+        "headline": "SOM算法和GeoSOM算法",
+        "image": "http://example.com/pics/17.jpg",
+        "keywords": "Machine Learning",
+        "genre": "Learning",
+        "datePublished": "2023-02-28",
+        "dateCreated": "2023-02-28",
+        "dateModified": "2023-02-28",
+        "url": "http://example.com/2023/02/28/som/",
+        "description": "
+SOM介绍SOM是一种无监督的人工神经网络。不同于一般神经网络基于损失函数的反向传递来训练，它运用竞争学习(competitive learning)策略,依靠神经元之间互相竞争逐步优化网络。且使用近邻关系函数(neighborhood function)来维持输入空间的拓扑结构。维持输入空间的拓扑结构：意味着 二维映射包含了数据点之间的相对距离。输入空间中相邻的样本会被映射到相邻的输出神经元。",
+        "wordCount": 59
+    }
+</script>
+
+</article>
+
+    <section id="comments">
     
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
 
 
-    </div></section>
-
+    
+    </section>
 
 
 
@@ -278,6 +390,19 @@
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2023/02/26/psychology/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">脆弱者的三颗救心丸——读卡伦霍妮、阿德勒与荣格有感 Three Pills for the Vulnerable -- Reading Karen Horney, Adler and Jung</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
@@ -489,11 +614,13 @@
     var disqus_shortname = 'hexo-theme-hueman';
     
     
+    var disqus_url = 'http://example.com/2023/02/28/som/';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
